@@ -1,0 +1,540 @@
+<!--
+  くずはすくりぷとPHP  HTMLテンプレート
+-->
+
+
+
+
+
+<!-- HTMLヘッダー -->
+<patTemplate:tmpl name="header">
+<?xml version="1.0" encoding="Shift_JIS"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+{CUSTOMHEAD}<title>{TITLE}</title>
+<style type="text/css">
+  body { background: #{C_BACKGROUND}; color: #{C_TEXT}; }
+  a:link { color: #{C_A_COLOR}; }
+  a:visited { color: #{C_A_VISITED}; }
+  a:active { color: #{C_A_ACTIVE}; }
+  a:hover { color: #{C_A_HOVER}; }
+  .pagetitle { font-size: medium; font-weight: bold; text-align: left; }
+  .bbsmsg { font-size: small; }
+  .small { font-size: x-small; }
+  .msgmore { font-size: x-small; font-style: italic; }
+  .copyright { font-size: x-small; text-align: right; }
+  /* メッセージ全体 */ .m { }
+  /* 題名 */ .ms { color: #{C_SUBJ}; font-size: medium; font-weight: bold; }
+  /* 投稿者欄 */ .mu { font-size: small; }
+  /* 投稿者名 */ .mun { font-size: small; font-weight: bold; }
+  /* 固定ハンドル */ .muh { font-size: small; font-weight: normal; font-style: italic; }
+  /* 投稿日 */ .md { font-size: x-small; }
+  /* フォーム説明 */ .pfhelp { font-size: x-small; font-style: italic; }
+  /* 引用 */ .q { color: #{C_QMSG}; }
+  /* エラー */ .error { color: #{C_ERROR}; }
+  /* 環境変数 */ .env { font-size: x-small; font-style: italic; }
+  .nw { white-space: nowrap; }
+{CUSTOMSTYLE}</style>
+</head>
+
+<body>
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- 横線 -->
+<patTemplate:tmpl name="hr">
+<hr />
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- 著作権表示 -->
+<patTemplate:tmpl name="copyright">
+<patTemplate:link src="hr" />
+
+<div class="copyright">
+<a href="http://strange.egoism.jp/script/">くずはすくりぷとPHP</a> {VERSION}
+</div>
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- エラーメッセージ -->
+<patTemplate:tmpl name="error">
+<span class="error">{ERR_MESSAGE}</span>
+<patTemplate:tmpl name="backnavi" visibility="hidden">
+<br /><br /><span class="bbsmsg"><a href="{DEFURL}">戻る</a></span>
+</patTemplate:tmpl>
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- 記事 -->
+<patTemplate:tmpl name="message">
+
+<div class="m" id="m{POSTID}">
+  <span class="nw"><span class="ms">{TITLE}</span>&nbsp;&nbsp;<span class="mu">投稿者：<span class="mun">{USER}</span></span>&nbsp;
+  &nbsp;<span class="md">投稿日：{WDATE}<a name="a{POSTID}" id="a{POSTID}">&nbsp;</a>
+  {BTN}</span></span>
+  <blockquote>
+    <pre>{MSG}</pre>
+  </blockquote>
+<patTemplate:link src="envlist" />
+</div>
+<patTemplate:link src="hr" />
+<!--  -->
+
+</patTemplate:tmpl>
+
+
+<!-- 記事の環境変数表示 -->
+<patTemplate:tmpl name="envlist" visibility="hidden">
+<div class="env">{ENVADDR}{ENVBR}{ENVUA}</div>
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- 掲示板メイン上部（記事のループよりも上の部分） -->
+<patTemplate:tmpl name="main_upper">
+<span class="pagetitle">{BBSTITLE}</span>
+
+ <span class="small">
+ <a href="{INFOPAGE}">広報室</a>
+ <a href="mailto:{ADMINMAIL}">連絡先</a>
+ <a href="{CGIURL}?{QUERY}&amp;m=tree">ツリー表示</a>
+ <a href="{CGIURL}?m=i">iモード</a>
+ </span>
+
+<patTemplate:link src="form" />
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- 掲示板メイン下部（記事のループよりも下の部分） -->
+<patTemplate:tmpl name="main_lower">
+
+<p class="msgmore">{MSGMORE}</p>
+
+<table summary="footnavi" border="0">
+  <tr>
+<patTemplate:tmpl name="nextpage">
+    <td>
+      <form method="post" action="{CGIURL}">
+        <input type="hidden" name="u" value="{U}" />
+        <input type="hidden" name="i" value="{I}" />
+        <input type="hidden" name="d" value="{MSGDISP}" />
+        <input type="hidden" name="c" value="{C}" />
+        <input type="hidden" name="p" value="{TOPPOSTID}" />
+        <input type="hidden" name="b" value="{EINDEX}" />
+        <input type="submit" name="reload" value="次のページ" />
+      </form>
+    </td>
+</patTemplate:tmpl>
+    <td>
+      <form method="post" action="{CGIURL}">
+        <input type="hidden" name="u" value="{U}" />
+        <input type="hidden" name="i" value="{I}" />
+        <input type="hidden" name="d" value="{MSGDISP}" />
+        <input type="hidden" name="c" value="{C}" />
+        <input type="hidden" name="p" value="{TOPPOSTID}" />
+        <input type="submit" name="reload" value="リロード" />
+      </form>
+    </td>
+<patTemplate:tmpl name="readnew">
+    <td>
+      <form method="post" action="{CGIURL}">
+        <input type="hidden" name="u" value="{U}" />
+        <input type="hidden" name="i" value="{I}" />
+        <input type="hidden" name="d" value="{MSGDISP}" />
+        <input type="hidden" name="c" value="{C}" />
+        <input type="hidden" name="p" value="{TOPPOSTID}" />
+        <input type="submit" name="readnew" value="未読" />
+      </form>
+    </td>
+</patTemplate:tmpl>
+  </tr>
+</table>
+
+<patTemplate:tmpl name="adminlogin">
+<patTemplate:link src="hr" />
+<form method="post" action="{CGIURL}">
+  <input type="hidden" name="m" value="p" />
+  <input type="hidden" name="d" value="{MSGDISP}" />
+  <input type="hidden" name="c" value="{C}" />
+  <input type="hidden" name="p" value="{TOPPOSTID}" />
+  <input type="hidden" name="g" value="{GZIPU}" />
+  <input type="hidden" name="hide" value="{HIDEFORM}" />
+  <input type="hidden" name="loff" value="{LINKOFF}" />
+  <input type="hidden" name="sim" value="{SHOWIMG}" />
+  <input size="8" type="password" name="u" maxlength="30" value="{U}" />
+  <input type="submit" name="write" value="管理者投稿" />
+</form>
+</patTemplate:tmpl>
+
+<patTemplate:link src="copyright" />
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- 投稿フォーム -->
+<patTemplate:tmpl name="form">
+<form method="post" enctype="multipart/form-data" action="{CGIURL}">
+<div class="form">
+  {MODE}
+  <input type="hidden" name="c" value="{C}" />
+  <input type="hidden" name="p" value="{TOPPOSTID}" />
+  <input type="hidden" name="pc" value="{PCODE}" />
+  <input type="hidden" name="g" value="{GZIPU}" />
+
+<patTemplate:tmpl name="postform" type="condition" conditionvar="mode">
+<patTemplate:sub condition="default">
+  <div class="postform">
+    投稿者 <input size="20" type="text" name="u" accesskey="1" maxlength="30" value="{U}" /><br />
+    メール <input size="30" type="text" name="i" accesskey="2" maxlength="255" value="{I}" /><br />
+    題名 　<input size="30" type="text" name="t" accesskey="3" maxlength="40" value="{DTITLE}" />
+    <input type="submit" name="post" accesskey="P" value="投稿／リロード" />
+    <input type="reset" accesskey="K" value="消す" /><br /><br />
+    内容
+    <span class="pfhelp">
+      （適当に改行を入れてください。タグは使えません。内容を書かずに投稿ボタンを押すとリロードになります）
+    </span>
+    <br />
+    <textarea rows="5" cols="70" name="v" accesskey="4">{DMSG}</textarea><br /><br />
+    URL
+    <span class="pfhelp">
+      （リンクを入れたい場合はここに記入します）
+    </span>
+    <br />
+    <input size="70" type="text" name="l" accesskey="5" maxlength="255" value="{DLINK}" />
+    <br /><br />
+  </div>
+</patTemplate:sub>
+<patTemplate:sub condition="image">
+  <div class="postform">
+    投稿者 <input size="20" type="text" name="u" accesskey="1" maxlength="30" value="{U}" /><br />
+    メール <input size="30" type="text" name="i" accesskey="2" maxlength="255" value="{I}" /><br />
+    題名 　<input size="30" type="text" name="t" accesskey="3" maxlength="40" value="{DTITLE}" />
+    <input type="submit" name="post" accesskey="P" value="投稿／リロード" />
+    <input type="reset" accesskey="K" value="消す" /><br /><br />
+    内容
+    <span class="pfhelp">
+      （適当に改行を入れてください。タグは使えません。内容を書かずに投稿ボタンを押すとリロードになります<br />
+        本文中に {IMAGETEXT} と書くとアップロード画像はその部分に挿入されます）
+    </span>
+    <br />
+    <textarea rows="5" cols="70" name="v" accesskey="4">{DMSG}</textarea><br /><br />
+    URL
+    <span class="pfhelp">
+      （リンクを入れたい場合はここに記入します）
+    </span>
+    <br />
+    <input size="70" type="text" name="l" accesskey="5" maxlength="255" value="{DLINK}" />
+    <br /><br />
+    画像アップロード
+    <span class="pfhelp">
+      （jpg/gif/pngのみ。
+        横幅{MAX_IMAGEWIDTH}pixel、縦幅{MAX_IMAGEHEIGHT}pixel、サイズ{MAX_IMAGESIZE}KBまで）
+    </span>
+    <br />
+    <input type="hidden" name="MAX_FILE_SIZE" value="{MAX_FILE_SIZE}">
+    <input size="40" type="file" name="file" accesskey="7" maxlength="255" value="" /><br /><br />
+  </div>
+</patTemplate:sub>
+<patTemplate:sub condition="hide">
+  <input type="hidden" name="u" value="{U}" />
+  <input type="hidden" name="i" value="{I}" />
+</patTemplate:sub>
+</patTemplate:tmpl>
+
+<patTemplate:tmpl name="extraform">
+  <div class="small">
+    表示件数<input size="4" type="text" name="d" accesskey="6" value="{MSGDISP}" />&nbsp;
+    <patTemplate:tmpl name="formconfig">
+    URL自動リンク<input type="checkbox" name="a" accesskey="U" value="checked"{CHK_A} />&nbsp;
+<!--    自動改行<input type="checkbox" name="wrap" accesskey="A" value="checked"{CHK_WRAP} />&nbsp; -->
+    フォームOFF<input type="checkbox" name="hide" accesskey="I" value="checked"{CHK_HIDE} />&nbsp;
+    </patTemplate:tmpl>
+    リンク行OFF<input type="checkbox" name="loff" accesskey="L" value="checked"{CHK_LOFF} />&nbsp;
+    <patTemplate:tmpl name="sicheck" visibility="hidden">
+    画像ON<input type="checkbox" name="sim" accesskey="S" value="checked"{CHK_SI} />&nbsp;
+    </patTemplate:tmpl>
+    <input type="submit" name="setup" accesskey="C" value="設定" />
+  </div>
+  <patTemplate:tmpl name="counterrow">
+  <br />
+  <div class="small">
+    <patTemplate:tmpl name="counter">
+    {COUNTDATE} から {COUNTER}（こわれにくさレベル{COUNTLEVEL}）
+    </patTemplate:tmpl>
+    <patTemplate:tmpl name="mbrcount">
+    　現在の参加者 : {MBRCOUNT}名 ({CNTLIMIT}秒以内)
+    </patTemplate:tmpl>
+  </div>
+  </patTemplate:tmpl>
+  <patTemplate:link src="hr" />
+
+  <patTemplate:tmpl name="linkrow">
+  <div class="small">
+    | <a href="{INFOPAGE}">広報室</a>
+    | <a href="{DEFURL}&amp;m=g">過去ログ</a>
+{BBSLINK}
+    |
+  </div>
+  <patTemplate:link src="hr" />
+  </patTemplate:tmpl>
+  
+  <patTemplate:tmpl name="helprow">
+  <div class="small">
+    {TXTFOLLOW} : フォロー投稿
+    　 {TXTAUTHOR} : 投稿者検索
+    　 {TXTTHREAD} : スレッド表示
+    　 {TXTTREE} : ツリー表示
+    <patTemplate:tmpl name="helpundo">
+    　 {TXTUNDO} : 自分の投稿を消す（直前の投稿のみ）
+    </patTemplate:tmpl>
+    　 最大登録件数 : {LOGSAVE}件
+  </div>
+  <patTemplate:link src="hr" />
+  </patTemplate:tmpl>
+  
+  <patTemplate:tmpl name="btnrow">
+  <div class="small">
+    <patTemplate:tmpl name="postbtn" type="Condition" conditionvar="HIDEFORM">
+    <patTemplate:sub condition="default">
+    <input type="submit" name="post" accesskey="R" value="投稿／リロード" />
+    </patTemplate:sub>
+    <patTemplate:sub condition="1">
+    <input type="submit" name="post" accesskey="R" value="リロード" />
+    </patTemplate:sub>
+    </patTemplate:tmpl>
+    <patTemplate:tmpl name="readnewbtn">
+    <input type="submit" name="readzero" accesskey="0" value="0件" />
+    <input type="submit" name="readnew" accesskey="M" value="未読" />
+    </patTemplate:tmpl>
+    <patTemplate:tmpl name="newpostbtn">
+    <input type="submit" name="write" accesskey="W" value="新規投稿" />
+    </patTemplate:tmpl>
+  </div>
+  </patTemplate:tmpl>
+</div>
+</form>
+
+<patTemplate:link src="hr" />
+</patTemplate:tmpl>
+
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- フォロー画面 -->
+<patTemplate:tmpl name="follow">
+<patTemplate:link src="hr" />
+<patTemplate:link src="message" />
+
+<span class="bbsmsg">フォロー記事投稿　<a href="{DEFURL}">戻る</a></span><br />
+<patTemplate:link src="form" />
+  <div class="small">
+    URL自動リンク <input type="checkbox" name="a" value="checked"{CHK_A} />
+  </div>
+  <input type="hidden" name="f" value="{FOLLOWID}" />
+  <input type="hidden" name="ff" value="{FF}" />
+  <input type="hidden" name="ac" value="{AC}" />
+  <input type="hidden" name="s" value="{SEARCHID}" />
+  <input type="hidden" name="g" value="{GZIPU}" />
+  <input type="hidden" name="d" value="{MSGDISP}" />
+  <patTemplate:link src="hr" />
+</div>
+</form>
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- 新規投稿画面 -->
+<patTemplate:tmpl name="newpost">
+<div class="pagetitle">{BBSTITLE}</div>
+<br />
+<span class="bbsmsg">新規投稿　<a href="{DEFURL}">戻る</a></span><br />
+<patTemplate:link src="form" />
+  <div class="small">
+    URL自動リンク <input type="checkbox" name="a" value="checked"{CHK_A} />
+  </div>
+  <input type="hidden" name="g" value="{GZIPU}" />
+  <input type="hidden" name="d" value="{MSGDISP}" />
+  <input type="hidden" name="hide" value="{HIDEFORM}" />
+  <input type="hidden" name="loff" value="{LINKOFF}" />
+  <input type="hidden" name="sim" value="{SHOWIMG}" />
+  <patTemplate:link src="hr" />
+</div>
+</form>
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- 投稿検索画面 -->
+<patTemplate:tmpl name="searchlist_upper">
+<patTemplate:link src="hr" />
+
+</patTemplate:tmpl>
+<patTemplate:tmpl name="searchlist_lower">
+<span class="bbsmsg">{SUCCESS}件見つかりました。　<a href="{DEFURL}">戻る</a></span>
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- 書き込み完了 -->
+<patTemplate:tmpl name="postcomplete">
+<span class="pagetitle"><a href="{DEFURL}">書き込み完了</a></span>
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- UNDO処理完了 -->
+<patTemplate:tmpl name="undocomplete">
+<span class="pagetitle"><a href="{DEFURL}">消去完了</a></span>
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- 環境設定画面 -->
+<patTemplate:tmpl name="custom">
+<span class="pagetitle">{BBSTITLE} 個人用環境設定</span>
+<br />
+
+<form method="post" action="{CGIURL}">
+  <input type="hidden" name="m" value="c" />
+  <input type="hidden" name="nm" value="{MODE}" />
+  <ul>
+    <li>
+    <strong>表示設定</strong><br /><br />
+    <table summary="colorc" border="0" cellspacing="0" cellpadding="3">
+      <tr>
+        <td>文字色</td>
+        <td>#<input type="text" name="C_TEXT" size="7" maxlength="6" value="{C_TEXT}" /></td>
+        <td>背景色</td>
+        <td>#<input type="text" name="C_BACKGROUND" size="7" maxlength="6" value="{C_BACKGROUND}" /></td>
+      </tr>
+      <tr>
+        <td>リンク色</td>
+        <td>#<input type="text" name="C_A_COLOR" size="7" maxlength="6" value="{C_A_COLOR}" /></td>
+        <td>訪問済リンク色 </td>
+        <td>#<input type="text" name="C_A_VISITED" size="7" maxlength="6" value="{C_A_VISITED}" /></td>
+      </tr>
+      <tr>
+        <td>選択リンク色</td>
+        <td>#<input type="text" name="C_A_ACTIVE" size="7" maxlength="6" value="{C_A_ACTIVE}" /></td>
+        <td>マウスオーバーリンク色</td>
+        <td>#<input type="text" name="C_A_HOVER" size="7" maxlength="6" value="{C_A_HOVER}" /></td>
+      </tr>
+      <tr>
+        <td>題名色</td>
+        <td>#<input type="text" name="C_SUBJ" size="7" maxlength="6" value="{C_SUBJ}" /></td>
+        <td>引用色</td>
+        <td>#<input type="text" name="C_QMSG" size="7" maxlength="6" value="{C_QMSG}" /></td>
+      </tr>
+    </table>
+    </li>
+  </ul>
+  <ul>
+    <li>
+    <strong>付加機能設定</strong><br /><br />
+    表示件数 <input size="6" type="text" name="d" value="{MSGDISP}" /><br /><br />
+    <input type="checkbox" name="g" value="checked"{CHK_G} /> gzip圧縮転送 （表示が高速化されます）<br />
+
+    <patTemplate:tmpl name="custom_hide" type="condition" conditionvar="BBSMODE_ADMINONLY">
+    <patTemplate:sub condition="0">
+    <input type="checkbox" name="hide" value="checked"{CHK_HIDE} /> フォームOFF （投稿フォームを表示しない）<br />
+    </patTemplate:sub>
+    <patTemplate:sub condition="default">
+    <input type="hidden" name="hide" value="checked" />
+    </patTemplate:sub>
+    </patTemplate:tmpl>
+
+    <patTemplate:tmpl name="custom_a" type="condition" conditionvar="BBSMODE_ADMINONLY">
+    <patTemplate:sub condition="1">
+    <input type="hidden" name="a" value="checked" />
+    </patTemplate:sub>
+    <patTemplate:sub condition="default">
+    <input type="checkbox" name="a" value="checked"{CHK_A} /> URL自動リンク （投稿時に内容内のURLを自動的にリンクにする）<br />
+    </patTemplate:sub>
+    </patTemplate:tmpl>
+
+    <input type="checkbox" name="cookie" value="checked"{CHK_COOKIE} /> 投稿時にCookieに投稿者名とメールアドレスを記録する<br />
+    <input type="checkbox" name="loff" value="checked"{CHK_LOFF} /> リンク行OFF （投稿フォーム下のリンク一覧行を表示しない）<br />
+    <input type="checkbox" name="sim" value="checked"{CHK_SI} /> 画像ON （画像BBSモードで投稿された画像を表示する）<br />
+    </li>
+  </ul>
+  <ul>
+    <li>
+    <strong>フォロー画面の表示方法</strong><br /><br />
+    <input type="radio" name="fw" value="0"{CHK_FW_0} />新規ウィンドウを開いて表示<br />
+    <input type="radio" name="fw" value="1"{CHK_FW_1} />新規ウィンドウを開かずに表示<br />
+    </li>
+  </ul>
+  <ul>
+    <li>
+    <strong>０件リロード時のメッセージの表示方法</strong><br /><br />
+    <input type="radio" name="rt" value="0"{CHK_RT_0} />投稿時刻降順表示<br />
+    <input type="radio" name="rt" value="1"{CHK_RT_1} />投稿時刻昇順表示<br />
+    </li>
+  </ul>
+  <br />
+  「登録」を押した後に表示されるURLをブックマークに登録しましょう。<br />
+  上記の設定で掲示板を訪問することができます。<br /> <br />
+  <input type="submit" value="  登録  " />
+  <input type="reset" value="元に戻す" />
+  <input type="submit" name="cr" value="規定値に戻す＆Cookie消去" />
+</form>
+</patTemplate:tmpl>
+
+
+
+
+
+
+<!-- METAタグによるリダイレクト -->
+<patTemplate:tmpl name="redirect">
+<span class="bbsmsg">以下のURLへジャンプします。このままお待ちください</span><br /><br />
+<span class="bbsmsg">{REDIRECTURL}</span>
+</patTemplate:tmpl>
+
+
+
+
+
+<!-- HTMLフッター -->
+<patTemplate:tmpl name="footer">
+<patTemplate:tmpl name="duration" visibility="hidden">
+<div class="msgmore">実行時間 {DURATION}秒</div>
+</patTemplate:tmpl>
+</body></html>
+</patTemplate:tmpl>
