@@ -1,8 +1,20 @@
-*~
-\#*
-__pycache__/*
-*\\\.*
-*pyc
-./threads/*
-*list*
-*ips*
+# static html
+*.html
+
+# instance-config
+/inc/instance-config.php
+
+# .installed
+/.installed
+
+# script file
+/main.js
+
+# templates cache
+/templates/cache
+
+# other stuff
+.DS_Store
+thumbs.db
+Icon?
+Thumbs.db

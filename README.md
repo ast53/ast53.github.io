@@ -1,140 +1,69 @@
-# iyagi
-Python web board system (textboard, CGI, flatfile)
+Tinyboard - A lightweight PHP imageboard.
+==========================================
 
-Inspired by [Kareha](http://wakaba.c3.cx/s/web/wakaba_kareha), 
-[Shiichan](https://wakaba.c3.cx/shii/shiichan),
-[Tablecat BBS](http://tablecat.ipyo.heliohost.org/bbs/), 
-and others. 
+About
+------------
+Tinyboard is a free light-weight, fast, highly configurable and user-friendly
+imageboard software package. It is written in PHP and has few dependencies.
 
-Requires python 3.6+, collections (for defaultdict)
+Requirements
+------------
+1.	PHP >= 5.3
+2.	MySQL server
+3.	[mbstring](http://www.php.net/manual/en/mbstring.installation.php) 
+4.	[PHP GD](http://www.php.net/manual/en/intro.image.php)
+5.	[PHP PDO](http://www.php.net/manual/en/intro.pdo.php)
 
-1. Features
-2. Screenshots
-3. Installation
-4. Settings / config
-5. To-do 
+We try to make sure Tinyboard is compatible with all major web servers and
+operating systems. Tinyboard does not include an Apache ```.htaccess``` file nor does
+it need one.
 
-## 1. Features
-The script iyagi (이야기,  "chat") is approaching a nicer cleaner
-refactor with more features. But it works, and it can do some things
-that other boards can't.
+### Recommended
+1.	MySQL server >= 5.5.3
+2.	ImageMagick (command-line ImageMagick or GraphicsMagick preferred).
+3.	[APC (Alternative PHP Cache)](http://php.net/manual/en/book.apc.php), [XCache](http://xcache.lighttpd.net/) or [Memcached](http://www.php.net/manual/en/intro.memcached.php)
 
-It currently has the following features:
-- Works well out of the box and friendly `./settings.txt`
-- Thread replying with/without bumps (age/sage)
-- Tripcodes (pseudo-registration)
-- 4x13 and 0ch themes, with JS styleswitcher
-- [spoiler], [code], [yt] (YouTube) BBcode tags
-- Backlinking, to keep track of sub-threads
-- very weak spam detection
-- Permasage, Lock, and Sticky
-- Vanilla
-- IP logging 
-- Atom feeds for recent posts / threads
-- Slick NoSQL  
+Contributing
+------------
+You can contribute to Tinyboard by:
+*	Developing patches/improvements/translations and using GitHub to submit pull requests
+*	Providing feedback and suggestions
+*	Writing/editing documentation
 
-## 2. Screenshots
-<a href="https://i.imgur.com/yJztMga.png">
-<img src="https://i.imgur.com/yJztMgab.png">
-</a><a href="https://i.imgur.com/OTvViMn.png">
-<img src="https://i.imgur.com/OTvViMnb.png"></a>
-<br><i>Frontpage, in 0ch and 4x13 themes</i><br>
+If you need help developing a patch, please join our IRC channel.
 
-<br><a href="https://i.imgur.com/DxpsOl8.png">
-<img src="https://i.imgur.com/DxpsOl8m.png"></a>
-<br><i>A thread with no comments, showing off the reply window. "Bump" can 
-be unchecked, which preserves the thread's order in the index.</i><br>
+Installation
+-------------
+1.	Download and extract Tinyboard to your web directory or get the latest
+	development version with:
 
-<br><a href="https://i.imgur.com/IR5zORs.png">
-<img src="https://i.imgur.com/IR5zORsb.png"></a>
-<br><i>Ascii art, using [aa][/aa] tags (out for repairs)</i><br>
+        git clone git://github.com/savetheinternet/Tinyboard.git
+	
+2.	Navigate to ```install.php``` in your web browser and follow the
+	prompts.
+3.	Tinyboard should now be installed. Log in to ```mod.php``` with the
+	default username and password combination: **admin / password**.
 
-<br><a href="https://i.imgur.com/8rDMdab.png">
-<img src="https://i.imgur.com/8rDMdabm.png"></a>
-<br><i>Code, using [code][/code] tags </i><br>
+Please remember to change the administrator account password.
 
-<br><a href="https://i.imgur.com/1yy0OCd.png">
-<img src="https://i.imgur.com/1yy0OCdb.png"></a>
-<a href="https://i.imgur.com/ktSWd3u.png">
-<img src="https://i.imgur.com/ktSWd3ub.png"></a>
-<br><a href="https://i.imgur.com/EoyS473.png">
-<img src="https://i.imgur.com/EoyS473m.png"></a><br>
+See also: [Configuration Basics](http://tinyboard.org/docs/?p=Config).
 
-Locked, stickied, dead threads. Locked threads cannot be posted in, 
-stickied threads always stay at the top of the board, dead threads 
-cannot be bumped.
+Support
+--------
+Tinyboard is still beta software -- there are bound to be bugs. If you find a
+bug, please report it.
 
-## 3. Installation
-Installation couldn't be easier. Just download the repo and give the BBS 
-directory and its contents read/write privileges with the web daemon. 
-Then, open settings with your favorite text editor, and from there, 
-confirm your settings. 
+If you need assistance with installing, configuring, or using Tinyboard, you may
+find support from a variety of sources:
 
-Moderation is currently done by managing text files in a directory; 
-the default directory is "./threads/". You need to have at least one 
-valid thread on the board to enable posting; if you need to initialize 
-the board, create a folder called "./threads/" that's readable/writable 
-by the web daemon, and in there create a file called 0.txt. In your iyagi directory, create a file called "list.txt".
+*	If you're unsure about how to enable or configure certain features, make
+	sure you have read the comments in ```inc/config.php```.
+*	Documentation can be found [here](http://tinyboard.org/docs/).
+*	You can join Tinyboard's IRC channel for support and general queries: 
+	[irc.datnode.net #tinyboard](irc://irc.datnode.net/tinyboard).
+*	You may find help at [tinyboard.org](http://tinyboard.org/#help).
 
-    list.txt contents:
-    0 >< 0 >< 0 >< 0 >< 0
-      
-    0.txt contents:
-    0
-    0 >< 0 >< 0 >< 0
-    
-Then, try posting another thread from the page to confirm that your board 
-works. To get rid of that first thread, remove its entry from list.txt and
-remove 0.txt from the thread directory. To edit threads/posts, find a 
-thread's filename in your web browser or list.txt, then just modify it in 
-a text editor. 
+License
+--------
+See [LICENSE.md](http://github.com/savetheinternet/Tinyboard/blob/master/LICENSE.md).
 
-If you want to lock a thread, change the last number in its row, in 
-list.txt, to "1". To sticky, "2". To stickylock, "3". To kill, "4". 
-Then, open the thread (its\_unix\_time.txt in ./threads/) and add "><",
-followed by that same value to the title line. 
-
-Clunky, but it works for now :) 
-
-## 4. Settings / config 
-settings.txt
-- 0. board name
-- 1. board url
-- 2. mod username
-- 3. mod password (using hash generated from ./tripcode.py)
-- 4. theme (unused)
-- 5. thread storage (./threads)
-- 6. thread list (./list.txt)
-- 7. full URL
-- 8. time zone
-- 9. post IP log (ips.txt)
-- 10. thread IP log (ips2.txt)
-- 11. show recent - 8
-- 12. show replies - 3
-
-index.py
-- settings = `./settings.txt`
-- bad_words = `["bad", "words", "go", "here"]`
-
-bans.py
-```bans = {"ip address":"reason"
-"1.2.3.4":"spam",
-"2.2.2":"a wildcard for 2.2.2"
-".": "ban absolutely everyone from posting"
-}
-```
-
-
-## 5. To-do 
-Your comments/contributions would be appreciated 
-
-Here's what I'd like to bring to future versions of IYAGI
-- More stylesheets
-- better refactoring 
-- Admin panel, anti-spam filters
-- thread / index pagination
-- More JS stuff, maybe?
-
-Possible bonus features:
-- User storable capcodes
-- ?????
